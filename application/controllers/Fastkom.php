@@ -11,8 +11,8 @@ class Fastkom extends CI_Controller {
 	*/
 	
 	public function index() {
-		$data["sales"] 	= $this->getSales();
-		$data["client"] = $this->getClient();
+		//$data["sales"] 	= $this->getSales();
+		//$data["client"] = $this->getClient();
 		$data["agency"] = $this->getAgency();
 		
 		//var_dump($data);
@@ -22,7 +22,9 @@ class Fastkom extends CI_Controller {
 	
 	public function getAgency(){
 		
-		$url = "http://api.kmn.kompas.com/newadvdev/BP/isAgency";
+		//$url = "http://api.kmn.kompas.com/newadvdev/BP/isAgency";
+		$url = "http://api.kmn.kompas.com/newadvdev/Workstate/search";
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
 

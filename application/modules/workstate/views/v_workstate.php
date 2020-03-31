@@ -4,17 +4,17 @@
     $Next2 = 0;
     $Prev2 = 0;
 
-    // $Next2 = Model.Form.SelectedIndexRow + 1;
-    // if ($Next2 >= Model.Form.PageCount)
-    // {
-    //     $Next2 = Model.Form.PageCount;
-    // }
+    $Next2 = $Form->SelectedIndexRow + 1;
+    if ($Next2 >= $Form->PageCount)
+    {
+        $Next2 = $Form->PageCount;
+    }
 
-    // $Prev2 = Model.Form.SelectedIndexRow - 1;
-    // if ($Prev2 == 0)
-    // {
-    //     $Prev2 = 1;
-    // }
+    $Prev2 = $Form->SelectedIndexRow - 1;
+    if ($Prev2 == 0)
+    {
+        $Prev2 = 1;
+    }
 
     $BannedDetected = "";
 ?>
@@ -27,7 +27,7 @@
             </div> <!--- col --->
         </div> <!--- row --->
         <!--- begin form --->
-        <form role="form" action="/CI/Workstate" method="POST" class="form">
+        <form role="form" action="/newadv/Workstate" method="POST" class="form">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-inline search-form">
@@ -52,7 +52,13 @@
                             <div class="form-group">
                                 <label class="control-label">Workstate Type</label>
                                 <select class="form-control" data-val="true" data-val-number="The field WorkstateTypeID must be a number." data-val-required="The WorkstateTypeID field is required." id="WorkstateTypeID" name="Obj.WorkstateTypeID">                                
-                                    <option selected="selected" value="0">--- Select ---</option>
+                                <?php
+                                    for($i=0; $i < count($Obj->DropDownWorkstateType); $i++){
+                                ?>
+                                    <option value="<?= $Obj->DropDownWorkstateType[$i]->WorkstateTypeID; ?>"><?= $Obj->DropDownWorkstateType[$i]->WorkstateTypeName; ?></option>
+                                <?php
+                                    }
+                                ?> 
                                 </select>
                             </div>
                         </div>
@@ -116,8 +122,8 @@
                                 ?>
                                     <tr>
                                         <td class="text-right"><?= $i+1; ?><text>.</text></td>
-                                        <td><a href="/CI/Workstate/Detail/<?= $ObjList[$i]->ID; ?>"><?= $ObjList[$i]->Name; ?></a><span class="ref-num"> (<?= $ObjList[$i]->ID; ?>)</span></td>
-                                        <td><?= $ObjList[$i]->WorkstateTypeName ?></td>
+                                        <td><a href="<?= base_url();?>workstate/detail/<?= $ObjList[$i]->ID; ?>"><?= $ObjList[$i]->Name; ?></a><span class="ref-num"> (<?= $ObjList[$i]->ID; ?>)</span></td>
+                                        <td><?= $ObjList[$i]->WorkstateTypeName; ?></td>
                                         <td class="text-center">
                                             <?php
                                             if ($ObjList[$i]->Finalized == 1)
@@ -136,7 +142,7 @@
                                         </td>
                                         <td class="text-center"><?= $ObjList[$i]->Level; ?></td>
                                         
-                                        <td class="text-center"><div class="color-palette" style="background-color: <?= $ObjList[$i]->Color ?>"><span style="color: rgba(255, 255, 255, 0.8);"> #<?= $ObjList[$i]->Color ?></span></div></td>
+                                        <td class="text-center"><div class="color-palette" style="background-color: <?= $ObjList[$i]->Color; ?>"><span style="color: rgba(255, 255, 255, 0.8);"> <?= $ObjList[$i]->Color; ?></span></div></td>
                                     </tr>
                                 <?php
                                     }
@@ -161,7 +167,7 @@
                                     $start2 = 1;
                                     for ($i = 0; $i < $data2; $i++)
                                     {
-                                        if ($Form->PageCount == $start2)
+                                        if ($Form->SelectedIndexRow == $start2)
                                         {
                                 ?>
                                             <option value="<?= $start2; ?>" selected><?= $start2; ?></option>
@@ -214,3 +220,91 @@
         </form>
     </div> <!--- container --->
 </div>
+
+
+<script>
+    var PageSize = <?= $Form->PageSize; ?>;
+    var WorkstateTypeID = <?= $Obj->WorkstateTypeID; ?>;
+
+    console.log("PageSize: ", PageSize);
+    console.log("WorkstateTypeID: ", WorkstateTypeID);
+    // Show Filter if Active
+    if ((PageSize != 20) || (WorkstateTypeID != 0)) {
+        //$('#collapsibleSection').show();
+        $('#collapsibleSection').addClass('in');
+    }
+
+    //////////////////// Paging ////////////////////
+
+    // PageSize
+    $('#PageSize').on('change', function () {
+        $('#FilterSubmit').val(1);
+        this.form.submit();
+    });
+
+    // Selected Index Row
+    $('#SelectedIndexRow2').on('change', function () {
+        $('#FilterSubmit').val(1);
+        this.form.submit();
+    });
+
+    // First2 using click
+    $('#First2').on('click', function () {
+        console.log('test click');
+        $('#FilterSubmit').val(1);
+    });
+
+    // Prev2 using click
+    $('#Prev2').on('click', function () {
+        console.log('test click');
+        $('#FilterSubmit').val(1);
+    });
+
+    // Next2 using click
+    $('#Next2').on('click', function () {
+        console.log('test click');
+        $('#FilterSubmit').val(1);
+    });
+
+    // Last2 using click
+    $('#Last2').on('click', function () {
+        console.log('test click');
+        $('#FilterSubmit').val(1);
+    });
+
+    //////////////////// End Paging ////////////////////
+
+    //////////////////// Searching and Reset ////////////////////
+
+    // Search using click
+    $('#fSearchbtn').on('click',function(){
+        console.log('test click');
+        $('#FilterSubmit').val(1);
+        this.form.submit();
+    });
+
+    // Search using enter
+    $(document).keypress(function (e) {
+        if (e.which == 13) {
+            $('#FilterSubmit').val(1);
+            this.form.submit();
+        }
+    });
+
+    // Reset using click
+    $('#fResetbtn').on('click', function () {
+        $('#Reset').val("true");
+        this.form.submit();
+    });
+
+    //////////////////// End Searching and Reset ////////////////////
+
+    //////////////////// Filter ////////////////////
+
+    // Filter change
+    $('#WorkstateTypeID').on('change', function () {
+        $('#FilterSubmit').val(1);
+        this.form.submit();
+    });
+    //////////////////// End Filter ////////////////////
+</script>

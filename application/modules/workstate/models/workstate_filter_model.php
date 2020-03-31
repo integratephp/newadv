@@ -1,6 +1,7 @@
 <?php 
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class WorkstateFilterModel extends FilterClass {
+class Workstate_Filter_Model extends CI_Model {
 
 	  	public $PageSize ;
         public $StartRow ;

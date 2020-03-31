@@ -59,7 +59,6 @@
 </div>
 <!--- footer-wrapper --->
 </body>
-</html>
 <script type="text/javascript" src="http://apps.kmn.kompas.com/static/jquery/latest/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script type="text/javascript" src="http://apps.kmn.kompas.com/static/bootstrap/latest/js/bootstrap.min.js"></script>
@@ -71,3 +70,4 @@
 
     <!-- ============================================ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+</html>
