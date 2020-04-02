@@ -1,22 +1,22 @@
 <?php 
-    $this->template->set('title','Workstate Listing');
+$this->template->set('title','Workstate Listing');
 
-    $Next2 = 0;
-    $Prev2 = 0;
+$Next2 = 0;
+$Prev2 = 0;
 
-    $Next2 = $Form->SelectedIndexRow + 1;
-    if ($Next2 >= $Form->PageCount)
-    {
-        $Next2 = $Form->PageCount;
-    }
+$Next2 = $Form->SelectedIndexRow + 1;
+if ($Next2 >= $Form->PageCount)
+{
+    $Next2 = $Form->PageCount;
+}
 
-    $Prev2 = $Form->SelectedIndexRow - 1;
-    if ($Prev2 == 0)
-    {
-        $Prev2 = 1;
-    }
+$Prev2 = $Form->SelectedIndexRow - 1;
+if ($Prev2 == 0)
+{
+    $Prev2 = 1;
+}
 
-    $BannedDetected = "";
+$BannedDetected = "";
 ?>
 <!-- <?php var_dump($ObjList);?> -->
 <div class="content-wrapper" document="doc-1column-template">
@@ -40,6 +40,8 @@
                                 <button type="button" id="fSearchbtn" class="btn btn-default"><span class="glyphicon glyphicon-search"></span><span class="hidden-xs"> Search</span></button>
                                 <!--- reset button --->
                                 <button type="button" id="fResetbtn" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span><span class="hidden-xs"> Reset</span></button>
+                                <!--- new button --->
+                                <button type="button" class="btn btn-success" onclick="window.location='<?=base_url()?>workstate/addedit/0'"><span class="glyphicon glyphicon-plus"></span><span class="hidden-xs"> New</span></button>
                                 <!--- filter button --->
                             </span>
                         </div>
@@ -52,7 +54,7 @@
                             <div class="form-group">
                                 <label class="control-label">Workstate Type</label>
                                 <select class="form-control" id="WorkstateTypeID" name="WorkstateTypeID">                                
-                                <?php
+                                    <?php
                                     for($i=0; $i < count($Obj->DropDownWorkstateType); $i++){
                                         if($Obj->DropDownWorkstateType[$i]->WorkstateTypeID == $Obj->WorkstateTypeID){
                                             echo '<option selected value="'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeID.'">'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeName.'</option>';
@@ -61,7 +63,7 @@
                                             echo '<option value="'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeID.'">'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeName.'</option>';
                                         }
                                     }
-                                ?> 
+                                    ?> 
                                 </select>
                             </div>
                         </div>
@@ -72,32 +74,32 @@
                                 <select id="PageSize" name="PageSize" class="form-control">
                                     <?php
                                         // PHP SIDE
-                                        $data = 5;
-                                        $start = 10;
-                                        for ($i = 0; $i < $data; $i++)
-                                        { 
-                                            if($Form->PageSize == $start){
-                                    ?>
-                                                <!-- HTML SIDE -->
-                                                <option value="<?= $start; ?>" selected><?= $start; ?></option>                                                
-                                    <?php
+                                    $data = 5;
+                                    $start = 10;
+                                    for ($i = 0; $i < $data; $i++)
+                                    { 
+                                        if($Form->PageSize == $start){
+                                            ?>
+                                            <!-- HTML SIDE -->
+                                            <option value="<?= $start; ?>" selected><?= $start; ?></option>                                                
+                                            <?php
                                             // PHP SIDE
-                                            }else{
-                                    ?>
-                                                <!-- HTML SIDE -->
-                                                <option value="<?= $start; ?>"><?= $start; ?></option>
-                                    <?php
+                                        }else{
+                                            ?>
+                                            <!-- HTML SIDE -->
+                                            <option value="<?= $start; ?>"><?= $start; ?></option>
+                                            <?php
                                             // PHP SIDE
-                                            }
-                                            $start = $start + 10;
                                         }
+                                        $start = $start + 10;
+                                    }
                                     ?>
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
-             </div> <!-- col -->
+            </div> <!-- col -->
             <!--- collapsible section for filter --->
             
             <!--- end of collapsible section for filter --->
@@ -121,8 +123,8 @@
                             </thead>
                             <tbody>
                                 <?php
-                                    for($i=0; $i < count($ObjList); $i++){
-                                ?>
+                                for($i=0; $i < count($ObjList); $i++){
+                                    ?>
                                     <tr>
                                         <td class="text-right"><?= $ObjList[$i]->RowNumber; ?><text>.</text></td>
                                         <td><a href="<?= base_url();?>workstate/detail/<?= $ObjList[$i]->ID; ?>"><?= $ObjList[$i]->Name; ?></a><span class="ref-num"> (<?= $ObjList[$i]->ID; ?>)</span></td>
@@ -147,10 +149,10 @@
                                         
                                         <td class="text-center"><div class="color-palette" style="background-color: <?= $ObjList[$i]->Color; ?>"><span style="color: rgba(255, 255, 255, 0.8);"> <?= $ObjList[$i]->Color; ?></span></div></td>
                                     </tr>
-                                <?php
-                                    }
+                                    <?php
+                                }
                                 ?>
-                                    
+
                             </tbody>
                         </table>
                     </div>
@@ -166,24 +168,24 @@
                             <button type="submit" class="btn btn-default" id="Prev2" name="Prev2" value="<?= $Prev2; ?>"><span class="glyphicon glyphicon-menu-left"></span></button>
                             <select id="SelectedIndexRow2" name="SelectedIndexRow2" class="btn">
                                 <?php
-                                    $data2 = $Form->PageCount;
-                                    $start2 = 1;
-                                    for ($i = 0; $i < $data2; $i++)
+                                $data2 = $Form->PageCount;
+                                $start2 = 1;
+                                for ($i = 0; $i < $data2; $i++)
+                                {
+                                    if ($Form->SelectedIndexRow == $start2)
                                     {
-                                        if ($Form->SelectedIndexRow == $start2)
-                                        {
-                                ?>
-                                            <option value="<?= $start2; ?>" selected><?= $start2; ?></option>
-                                <?php
-                                        }
-                                        else
-                                        {
-                                ?>
-                                            <option value="<?= $start2; ?>"><?= $start2; ?></option>
-                                <?php
-                                        }
-                                        $start2 = $start2 + 1;
+                                        ?>
+                                        <option value="<?= $start2; ?>" selected><?= $start2; ?></option>
+                                        <?php
                                     }
+                                    else
+                                    {
+                                        ?>
+                                        <option value="<?= $start2; ?>"><?= $start2; ?></option>
+                                        <?php
+                                    }
+                                    $start2 = $start2 + 1;
+                                }
                                 ?>
                             </select>
                             <button type="submit" class="btn btn-default" id="Next2" name="Next2" value="<?= $Next2; ?>" role="button"><span class="glyphicon glyphicon-menu-right"></span></button>

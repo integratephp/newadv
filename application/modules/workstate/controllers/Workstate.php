@@ -14,19 +14,19 @@ class Workstate extends CI_Controller {
 		$objForm = new workstate_view_model();
 		
 		// Paging Variable
-        $pagesize = 0;
-        $rowcount = 0;
-        $selectedindexrow = 1;
+		$pagesize = 0;
+		$rowcount = 0;
+		$selectedindexrow = 1;
 
         // Filter Variable
-        $search;
-        $workstatetypeid;
+		$search;
+		$workstatetypeid;
 		
         // Detect From Postback
-        $FilterSubmit = isset($_POST["FilterSubmit"]) ? $_POST["FilterSubmit"] : 0;
+		$FilterSubmit = isset($_POST["FilterSubmit"]) ? $_POST["FilterSubmit"] : 0;
 
         // Get Data Form Postback
-        if ($FilterSubmit == 1){
+		if ($FilterSubmit == 1){
 			// Get Filter Parameter
 			if (strlen($_POST["SearchTextBox"]) != 0)
 			{
@@ -79,7 +79,7 @@ class Workstate extends CI_Controller {
 		}
 		
 		// Instance Class Form
-        $objForm->Form = new FormModel();
+		$objForm->Form = new FormModel();
 
         // Default PageSize
 		$objForm->Form->PageSize = 20;
@@ -105,27 +105,27 @@ class Workstate extends CI_Controller {
 		$objForm->Form->url = $this->URLClass->WorkstateUrl()."search/";
 
 		// Determine StartRow By Selected Index
-        $objForm->Form->SelectedIndexRow = $selectedindexrow;
-        if ($selectedindexrow > 0)
-        {
-            $temp = $selectedindexrow - 1;
-            $objForm->Form->StartRow = ($temp * $objForm->Form->PageSize) + 1;
-            if ($objForm->Form->url == $objForm->Form->urlBase)
-            {
-                $objForm->Form->url = $objForm->Form->url . "?StartRow=" . $objForm->Form->StartRow;
-            }
-            else
-            {
-                $objForm->Form->url = $objForm->Form->url . "&StartRow=" . $objForm->Form->StartRow;
-            }
-        }
+		$objForm->Form->SelectedIndexRow = $selectedindexrow;
+		if ($selectedindexrow > 0)
+		{
+			$temp = $selectedindexrow - 1;
+			$objForm->Form->StartRow = ($temp * $objForm->Form->PageSize) + 1;
+			if ($objForm->Form->url == $objForm->Form->urlBase)
+			{
+				$objForm->Form->url = $objForm->Form->url . "?StartRow=" . $objForm->Form->StartRow;
+			}
+			else
+			{
+				$objForm->Form->url = $objForm->Form->url . "&StartRow=" . $objForm->Form->StartRow;
+			}
+		}
 
 		// Determine StartRow Out of Row Count
 		if ($objForm->Form->RowCount <= $objForm->Form->PageSize)
 		{
 			$objForm->Form->url = $objForm->Form->urlBase;
 			$objForm->Form->StartRow = 1;
-		
+
 			if ($objForm->Form->url == $objForm->Form->urlBase)
 			{
 				$objForm->Form->url = $objForm->Form->url . "?StartRow=" . $objForm->Form->StartRow;
@@ -166,7 +166,7 @@ class Workstate extends CI_Controller {
 		
 		// Instance Object
 		$objForm->Obj = new workstate_model();
-				
+
 		// Instance DropDown Filter 
 		$objForm->Obj->DropDownWorkstateType = $objForm->Obj->PopulateDDWorkstateType();
 
@@ -183,46 +183,46 @@ class Workstate extends CI_Controller {
 
 		// Search Purpose
         // Recompose Url with StartRow = 1
-        if ((count($objForm->ObjList) == 0) && ($objForm->Form->StartRow != 1))
-        {
-            $objForm->Form->StartRow = 1;
-            $objForm->Form->EndRow = $objForm->Form->StartRow + $objForm->Form->PageSize - 1;
-            $objForm->Form->url = $objForm->Form->urlBase;
-            $objForm->Form->Search = $objForm->Form->Search == null ? "" : $objForm->Form->Search;
-            if ($objForm->Form->Search != "")
-            {
-                $objForm->Form->url = $objForm->Form->url . "?Search=" . $objForm->Form->Search . "&StartRow=" . $objForm->Form->StartRow . "&EndRow=" . $objForm->Form->EndRow;
-            }
-            else
-            {
-                $objForm->Form->url = $objForm->Form->url . "?StartRow=" . $objForm->Form->StartRow . "&EndRow=" . $objForm->Form->EndRow;
-            }
+		if ((count($objForm->ObjList) == 0) && ($objForm->Form->StartRow != 1))
+		{
+			$objForm->Form->StartRow = 1;
+			$objForm->Form->EndRow = $objForm->Form->StartRow + $objForm->Form->PageSize - 1;
+			$objForm->Form->url = $objForm->Form->urlBase;
+			$objForm->Form->Search = $objForm->Form->Search == null ? "" : $objForm->Form->Search;
+			if ($objForm->Form->Search != "")
+			{
+				$objForm->Form->url = $objForm->Form->url . "?Search=" . $objForm->Form->Search . "&StartRow=" . $objForm->Form->StartRow . "&EndRow=" . $objForm->Form->EndRow;
+			}
+			else
+			{
+				$objForm->Form->url = $objForm->Form->url . "?StartRow=" . $objForm->Form->StartRow . "&EndRow=" . $objForm->Form->EndRow;
+			}
 
             //////////////////// Filter ////////////////////
-            if ($workstatetypeid != 0)
-            {
-                $objForm->Obj->WorkstateTypeID = $workstatetypeid;
-                $objForm->Form->url = $objForm->Form->url . "&WorkstateTypeID=" . $objForm->Obj->WorkstateTypeID;
-            }
+			if ($workstatetypeid != 0)
+			{
+				$objForm->Obj->WorkstateTypeID = $workstatetypeid;
+				$objForm->Form->url = $objForm->Form->url . "&WorkstateTypeID=" . $objForm->Obj->WorkstateTypeID;
+			}
             //////////////////// End Filter ////////////////////
             // Get Data
-            $objForm->ObjList = $this->workstate_model->Listing($objForm);
+			$objForm->ObjList = $this->workstate_model->Listing($objForm);
 		}
 		
 		// Page Count
-        $tempCount = $objForm->Form->RowCount / $objForm->Form->PageSize;
-        $objForm->Form->PageCount = ceil($tempCount);
+		$tempCount = $objForm->Form->RowCount / $objForm->Form->PageSize;
+		$objForm->Form->PageCount = ceil($tempCount);
 
-        if ($objForm->Form->PageCount == 0)
-        {
-            $objForm->Form->PageCount = 1;
-        }
+		if ($objForm->Form->PageCount == 0)
+		{
+			$objForm->Form->PageCount = 1;
+		}
 
         // Set End Row
-        if ($objForm->Form->EndRow > $objForm->Form->RowCount)
-        {
-            $objForm->Form->EndRow = $objForm->Form->RowCount;
-        }
+		if ($objForm->Form->EndRow > $objForm->Form->RowCount)
+		{
+			$objForm->Form->EndRow = $objForm->Form->RowCount;
+		}
 		// Model.Form.SelectedIndexRow
 		// Model.Form.PageCount
 		// model.Obj.WorkstateTypeID
@@ -240,8 +240,45 @@ class Workstate extends CI_Controller {
 	{
 		$objForm = new workstate_view_model();
 		$objForm->Obj = $this->workstate_model->read($id);
-        $objForm->Form = new FormModel();
-          
-        $this->template->load('v_workstate_detail', $objForm);
+		$objForm->Form = new FormModel();
+
+		$this->template->load('v_workstate_detail', $objForm);
+	}
+
+	public function addedit($id)
+	{
+		$objForm = new workstate_view_model();
+		$objForm->Form = new FormModel();
+
+		if ($id != 0) {
+			$objForm->Obj = $this->workstate_model->read($id);
+			$objForm->Form->FormName = "Edit";
+
+			// // URL Reference
+   //              if (Request.UrlReferrer != null)
+   //              {
+   //                  objForm.Form.UrlRefer = Request.UrlReferrer.AbsoluteUri;
+   //              }
+   //              else
+   //              {
+   //                  objForm.Form.UrlRefer = "";
+   //              }
+			// Instance DropDown Filter 
+			$objForm->Obj->DropDownWorkstateType = $objForm->Obj->PopulateDDWorkstateType();
+			$this->template->load('v_workstate_addedit', $objForm);
+
+		} else 
+		{
+			$objForm->Form->FormName = "Add";
+			$objForm->Obj = new workstate_model();
+
+			$objForm->Obj->DropDownWorkstateType = $objForm->Obj->PopulateDDWorkstateType();
+
+			$this->template->load('v_workstate_addedit', $objForm);
+
+		}
+
 	}
 }
+
+

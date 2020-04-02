@@ -5,7 +5,7 @@
 <div class="container" style="min-height:450px;">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="page-header">Workstate <small>Detail</small></h1>
+            <h1 class="page-header">Workstate <small>Detail <?=$Obj->Name; ?> <span class="ref-num"> ( <?=$Obj->ID;?> ) </span></small></h1>
         </div> <!--- col --->
     </div> <!--- row --->
     <div class="row">
@@ -13,20 +13,24 @@
             <form class="form-inline">
                 <div class="form-group">
                     <!--- back button --->
-                    <button type="button" class="btnBack btn btn-default" ><span class="glyphicon glyphicon-arrow-left"></span><span class="hidden-xs"> Back</span></button>
+                    <button type="button" class="btnBack btn btn-default" onclick="window.location='<?=base_url()?>workstate'" ><span class="glyphicon glyphicon-arrow-left"></span><span class="hidden-xs"> Back</span></button>
 
-                  
+                    <!--- new button --->
+                    <button type="button" class="btn btn-success" onclick="window.location='<?=base_url()?>workstate/addedit/0'"><span class="glyphicon glyphicon-plus"></span><span class="hidden-xs"> New</span></button>
+
                     <!--- edit button --->
-                    <button type="button" class="btn btn-default" onclick=""><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs"> Edit</span></button>
+                    <button type="button" class="btn btn-default" onclick="window.location='<?=base_url()?>workstate/addedit/<?=$Obj->ID;?>'"><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs"> Edit</span></button>
 
-                  
+                     <!--- delete button --->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmation"><span class="glyphicon glyphicon-remove"></span><span class="hidden-xs"> Delete</span></button>
+
 
                 </div>
             </form>
         </div>
     </div> <!--- row --->
 
-    <form role="form" action="@Url.Action("Delete", "Workstate", new { ID = Model.Obj.ID })" method="POST" name="FormModified" id="FormModified">
+    <form role="form" action="" method="POST" name="FormModified" id="FormModified">
         <div class="modal fade bs-example-modal-sm" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -44,14 +48,16 @@
     </form>
 
     <!--- error --->
-   <!--  @if (@Model.Form.ErrorName != null)
+    <?php 
+    if($Form->ErrorName != null)
     {
-        <div class="alert alert-danger alert-dismissible" style="margin-bottom:0 !important; margin-top:20px !important" role="alert">
+        echo '<div class="alert alert-danger alert-dismissible" style="margin-bottom:0 !important; margin-top:20px !important" role="alert">
             <button type="button" class="close" data-dismiss="alert">
                 <span aria-hidden="true">×</span><span class="sr-only">Close</span>
-            </button><strong>@Model.Form.ErrorName</strong><br>@Model.Form.ErrorDescription
-        </div>
-    } -->
+            </button><strong><?=Form->FormName ;?> </strong><br><?= $Form->ErrorDescription ;?>
+        </div>';
+    } ?>
+
 
     <div class="row">
         <div class="col-md-12">
