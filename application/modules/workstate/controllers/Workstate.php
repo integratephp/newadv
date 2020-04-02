@@ -27,18 +27,19 @@ class Workstate extends CI_Controller {
 
         // Get Data Form Postback
         if ($FilterSubmit == 1){
-	        // Get Filter Parameter
-            if ($objForm->Form == null)
-            {
-                $search = "";
-                $workstatetypeid = 0;
-            }else{
-				if(strlen($objForm->Form->Search) != 0){
-					$search = $objForm->Form->Search;
-				}else{
-					$search = "";
-				}
-				$workstatetypeid = $objForm->Obj->WorkstateTypeID;
+			// Get Filter Parameter
+			if (strlen($_POST["SearchTextBox"]) != 0)
+			{
+				$search = $_POST["SearchTextBox"];
+			}else{
+				$search = "";
+			}
+
+			if (strlen($_POST["WorkstateTypeID"]) != 0)
+			{
+				$workstatetypeid = $_POST["WorkstateTypeID"];
+			}else{
+				$workstatetypeid = 0;
 			}
 			// Get Paging Parameter
 			if ($_POST["PageSize"] != 0)
@@ -55,23 +56,19 @@ class Workstate extends CI_Controller {
 			{
 				$selectedindexrow = $_POST["SelectedIndexRow2"];
 			}
-
-			if ($_POST["First2"] != 0)
+			if (isset($_POST["First2"]))
 			{
 				$selectedindexrow = $_POST["First2"];
 			}
-
-			if ($_POST["Prev2"] != 0)
+			if (isset($_POST["Prev2"]))
 			{
 				$selectedindexrow = $_POST["Prev2"];
 			}
-
-			if ($_POST["Next2"] != 0)
+			if (isset($_POST["Next2"]))
 			{
 				$selectedindexrow = $_POST["Next2"];
 			}
-
-			if ($_POST["Last2"] != 0)
+			if (isset($_POST["Last2"]))
 			{
 				$selectedindexrow = $_POST["Last2"];
 			}

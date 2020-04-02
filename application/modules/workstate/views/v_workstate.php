@@ -34,7 +34,7 @@
                         <div class="control-label hidden-xs">&nbsp;</div>
                         <div class="input-group">
                             <!--- search text box --->
-                            <input class="form-control" id="SearchTextBox" name="Form.Search" type="text" value="">
+                            <input class="form-control" id="SearchTextBox" name="SearchTextBox" type="text" value="<?= $Form->Search; ?>">
                             <span class="input-group-btn">
                                 <!--- search button --->
                                 <button type="button" id="fSearchbtn" class="btn btn-default"><span class="glyphicon glyphicon-search"></span><span class="hidden-xs"> Search</span></button>
@@ -51,12 +51,15 @@
                             <!--- Workstate --->
                             <div class="form-group">
                                 <label class="control-label">Workstate Type</label>
-                                <select class="form-control" data-val="true" data-val-number="The field WorkstateTypeID must be a number." data-val-required="The WorkstateTypeID field is required." id="WorkstateTypeID" name="Obj.WorkstateTypeID">                                
+                                <select class="form-control" id="WorkstateTypeID" name="WorkstateTypeID">                                
                                 <?php
                                     for($i=0; $i < count($Obj->DropDownWorkstateType); $i++){
-                                ?>
-                                    <option value="<?= $Obj->DropDownWorkstateType[$i]->WorkstateTypeID; ?>"><?= $Obj->DropDownWorkstateType[$i]->WorkstateTypeName; ?></option>
-                                <?php
+                                        if($Obj->DropDownWorkstateType[$i]->WorkstateTypeID == $Obj->WorkstateTypeID){
+                                            echo '<option selected value="'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeID.'">'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeName.'</option>';
+                                        }
+                                        else{
+                                            echo '<option value="'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeID.'">'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeName.'</option>';
+                                        }
                                     }
                                 ?> 
                                 </select>
@@ -121,7 +124,7 @@
                                     for($i=0; $i < count($ObjList); $i++){
                                 ?>
                                     <tr>
-                                        <td class="text-right"><?= $i+1; ?><text>.</text></td>
+                                        <td class="text-right"><?= $ObjList[$i]->RowNumber; ?><text>.</text></td>
                                         <td><a href="<?= base_url();?>workstate/detail/<?= $ObjList[$i]->ID; ?>"><?= $ObjList[$i]->Name; ?></a><span class="ref-num"> (<?= $ObjList[$i]->ID; ?>)</span></td>
                                         <td><?= $ObjList[$i]->WorkstateTypeName; ?></td>
                                         <td class="text-center">
