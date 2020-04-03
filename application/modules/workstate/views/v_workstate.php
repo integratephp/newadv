@@ -27,7 +27,7 @@ $BannedDetected = "";
             </div> <!--- col --->
         </div> <!--- row --->
         <!--- begin form --->
-        <form role="form" action="/newadv-master/Workstate" method="POST" class="form">
+        <form role="form" action="/newadv/Workstate" method="POST" class="form">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-inline search-form">
