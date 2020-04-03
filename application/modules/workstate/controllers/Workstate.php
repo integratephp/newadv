@@ -244,4 +244,23 @@ class Workstate extends CI_Controller {
           
         $this->template->load('v_workstate_detail', $objForm);
 	}
+
+	public function delete($id)
+	{
+		$objForm = new workstate_view_model();
+		$objForm->Obj = $this->workstate_model->delete($id);
+
+
+		$objForm->Form = new FormModel();
+
+		if($objForm->Form->status < 0)
+		{
+			$this->template->load('v_workstate_detail', $objForm);
+		}else{
+			$this->template->load('v_workstate', $objForm);
+		}
+
+		//$this->template->load('v_workstate', $objForm);
+
+	}
 }
