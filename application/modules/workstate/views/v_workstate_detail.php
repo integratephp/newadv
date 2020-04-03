@@ -21,16 +21,17 @@
                     <!--- edit button --->
                     <button type="button" class="btn btn-default" onclick="window.location='<?=base_url()?>workstate/addedit/<?=$Obj->ID;?>'"><span class="glyphicon glyphicon-edit"></span><span class="hidden-xs"> Edit</span></button>
 
-                     <!--- delete button --->
+                    <!--- delete button dihidden --->
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmation"><span class="glyphicon glyphicon-remove"></span><span class="hidden-xs"> Delete</span></button>
-
+                
 
                 </div>
             </form>
         </div>
     </div> <!--- row --->
 
-    <form role="form" action="" method="POST" name="FormModified" id="FormModified">
+    <form role="form" action="<?= base_url();?>Workstate/delete/<?= $Obj->ID; ?>" method="POST" name="FormModified" id="FormModified">
+
         <div class="modal fade bs-example-modal-sm" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
