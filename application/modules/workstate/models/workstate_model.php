@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Workstate_Model extends CI_Model {
-    
+
     // main class
     public $ID;
     public $Name;
@@ -170,11 +170,11 @@ class Workstate_Model extends CI_Model {
         $model->BackwardAllow = $data["rows"][0]["BackwardAllow"];
         $model->Color = $data["rows"][0]["Color"];
 
-         
+
         return $model;
     }
 
-     public function delete($id)
+    public function delete($id)
     {
 
         $url = "http://api.kmn.kompas.com/newadvdev/Workstate/delete";
@@ -200,7 +200,7 @@ class Workstate_Model extends CI_Model {
 
         curl_close($curl);
         
-       
+
         //header('Content-Type: application/json');
         $row = json_decode($obj);
         //echo $row->status."<br>";
@@ -208,7 +208,64 @@ class Workstate_Model extends CI_Model {
        // echo $data;
         //echo $err;
 
-       redirect('/Workstate');
-      
+        redirect('/Workstate');
+    }
+
+    public function save($objForm)
+    {
+        $objForm->Form = new FormModel();
+
+        //$ID = $this->input->post("inputID");
+        $Name = $this->input->post("inputName");
+        $WorkstateTypeID = $this->input->post("inputWorkstateType");
+        $Finalized = $this->input->post("Finalized");
+        $Level = $this->input->post("inputLevel");
+        $BackwardAllow = $this->input->post("BackwardAllow");
+        $Color = $this->input->post("inputColor");
+        $Description = $this->input->post("InputDescription");
+
+        // $Token = $this->input->post("product");
+
+
+        $url = "http://api.kmn.kompas.com/newadvdev/Workstate/save";
+        $data = '{"ID": 0, "Name" : "'.$Name.'", "Description" : "'.$Description.'", "WorkstateTypeID" : '.$WorkstateTypeID.', "Finalized" : '.$Finalized.', "Level" : '.$Level.', "BackwardAllow" : '.$BackwardAllow.', "Color" : "'.$Color.'", "Token" : "string" }';
+        $header = array('Content-Type: application/json','Content-Length: ' . strlen($data));
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_HTTPHEADER => $header,
+            CURLOPT_POSTFIELDS => $data,
+        ));
+        $response = curl_exec($curl);
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        $obj = substr($response, $header_size);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+        
+
+        //header('Content-Type: application/json');
+        $row = json_decode($obj);
+
+        $objForm->Form->status = $row["status"];
+        if ($objForm->Form->status < 0) 
+        {
+            $objForm->Form->ErrorName = $row["message"];
+            $objForm->Form->ErrorDescription = $row["messagedescription"];
+        } 
+        else 
+        {
+         $objForm->Form->ErrorName = "Success";
+         $objForm->Form->ErrorDescription = "Success";
+        } 
+
+        return $objForm;
     }
 }

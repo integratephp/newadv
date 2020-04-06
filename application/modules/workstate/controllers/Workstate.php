@@ -299,5 +299,30 @@ class Workstate extends CI_Controller {
 		//$this->template->load('v_workstate', $objForm);
 
 	}
+
+	public function save()
+	{
+		$objForm = new workstate_view_model();
+
+		$objForm = $this->workstate_model->save($objForm);
+
+		if ($objForm->Form->status < 0) 
+		{
+			$objForm->Obj->DropDownWorkstateType = $objForm->Obj->PopulateDDWorkstateType();
+			$objForm->Form->FormName = "Edit";
+
+			$this->template->load('v_workstate_addedit', $objForm);
+            
+		}
+
+		else 
+		{	
+			$newid = $objForm->Form->status ;
+			//redirect($uri="base_url();", $method() )
+			redirect(base_url()."workstate/detail/'.$newid'");
+
+			//$this->template->load('v_workstate_detail', $Form->status);
+		}
+	}
 }
 

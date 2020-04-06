@@ -27,7 +27,7 @@ else {
 			<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<form role="form" action="" method="" class="form-horizontal">
+						<form role="form" action="<?= base_url();?>Workstate/save" method="POST" class="form-horizontal">
 
 							<!--- error --->
 							<?php 
@@ -45,7 +45,7 @@ else {
 								<label for="inputID" class="control-label col-sm-3 mandatory">ID</label>
 								<div class="col-sm-9">
 									<!-- @Html.TextBoxFor(model => model.Obj.ID, new { @class = "form-control" }) -->
-									<input type="text" class="form-control" id="inputID" name="inputName" value="<?= $Obj->ID;?>">
+									<input type="text" class="form-control" id="inputID" name="inputID" value="<?= $Obj->ID;?>">
 								</div>
 							</div>
 
@@ -64,7 +64,7 @@ else {
 								<!--- select --->
 								<div class="form-group">
 									<div class="col-sm-3">
-										<select class="form-control" id="inputWorkstateType" name="inputWorkstateType" disabled="disabled">                                
+										<select class="form-control" id="inputWorkstateType" name="inputWorkstateType">                                
 											<?php
 											for($i=0; $i < count($Obj->DropDownWorkstateType); $i++){
 												if($Obj->DropDownWorkstateType[$i]->WorkstateTypeID == $Obj->WorkstateTypeID){
