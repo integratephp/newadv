@@ -218,7 +218,7 @@ class Workstate_Model extends CI_Model {
     {
         $objForm->Form = new FormModel();
 
-        //$ID = $this->input->post("inputID");
+        $ID = $this->input->post("inputID");
         $Name = $this->input->post("inputName");
         $WorkstateTypeID = $this->input->post("inputWorkstateType");
         $Finalized = $this->input->post("Finalized");
@@ -231,7 +231,7 @@ class Workstate_Model extends CI_Model {
 
 
         $url = "http://api.kmn.kompas.com/newadvdev/Workstate/save";
-        $data = '{"ID": 0, "Name" : "'.$Name.'", "Description" : "'.$Description.'", "WorkstateTypeID" : '.$WorkstateTypeID.', "Finalized" : '.$Finalized.', "Level" : '.$Level.', "BackwardAllow" : '.$BackwardAllow.', "Color" : "'.$Color.'", "Token" : "string" }';
+        $data = '{"ID": '.$ID.' , "Name" : "'.$Name.'", "Description" : "'.$Description.'", "WorkstateTypeID" : '.$WorkstateTypeID.', "Finalized" : '.$Finalized.', "Level" : '.$Level.', "BackwardAllow" : '.$BackwardAllow.', "Color" : "'.$Color.'", "Token" : "string" }';
         $header = array('Content-Type: application/json','Content-Length: ' . strlen($data));
         $curl = curl_init();
         curl_setopt_array($curl, array(

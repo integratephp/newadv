@@ -307,7 +307,9 @@ class Workstate extends CI_Controller {
 
 		$objForm = $this->workstate_model->save($objForm);
 
-		if ($objForm->Form->status < 0) 
+		$newid = $objForm->Form->status ;
+
+		if ($newid < 0) 
 		{
 			$objForm->Obj->DropDownWorkstateType = $objForm->Obj->PopulateDDWorkstateType();
 			$objForm->Form->FormName = "Edit";
@@ -318,7 +320,7 @@ class Workstate extends CI_Controller {
 
 		else 
 		{	
-			$newid = $objForm->Form->status ;
+			//$newid = $objForm->Form->status ;
 
 			//redirect($uri="base_url();", $method() )
 			redirect(base_url()."workstate/detail/$newid");
