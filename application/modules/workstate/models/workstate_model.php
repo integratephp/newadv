@@ -255,9 +255,11 @@ class Workstate_Model extends CI_Model {
         
 
         //header('Content-Type: application/json');
-        $row = json_decode($obj);
+        $row = json_decode($response);
+       
 
-        $objForm->Form->status = $row["status"];
+
+        $objForm->Form->status = ($row->{'status'});
         if ($objForm->Form->status < 0) 
         {
             $objForm->Form->ErrorName = $row["message"];
@@ -268,6 +270,10 @@ class Workstate_Model extends CI_Model {
          $objForm->Form->ErrorName = "Success";
          $objForm->Form->ErrorDescription = "Success";
         } 
+
+
+        // echo "<pre>";
+        // die(print_r($objForm,true));
 
         return $objForm;
     }

@@ -319,8 +319,9 @@ class Workstate extends CI_Controller {
 		else 
 		{	
 			$newid = $objForm->Form->status ;
+
 			//redirect($uri="base_url();", $method() )
-			redirect(base_url()."workstate/detail/'.$newid'");
+			redirect(base_url()."workstate/detail/$newid");
 
 			//$this->template->load('v_workstate_detail', $Form->status);
 		}
