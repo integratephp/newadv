@@ -113,13 +113,15 @@ class Workstate_Model extends CI_Model {
         // return $obj;
 
         // Create Object List
-        $models = [];        
+        $models = []; 
+
 
         $item = new workstate_model();
         $item->WorkstateTypeID = 0;
         $item->WorkstateTypeName = "--- Select ---";
         $models[] = $item;
 
+    
         // Deserialize Data
         for($i=0; $i < count($data["rows"]); $i++){
             $Item = new workstate_model();
@@ -127,6 +129,7 @@ class Workstate_Model extends CI_Model {
             $Item->WorkstateTypeName = $data["rows"][$i]["Name"];
             $models[] = $Item;
         } 
+
         return $models;
     }
 
