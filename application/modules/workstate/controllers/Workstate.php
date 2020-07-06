@@ -175,7 +175,10 @@ class Workstate extends CI_Controller {
 		if ($workstatetypeid != 0)
 		{
 			$objForm->Form->url = $objForm->Form->url . "&WorkstateTypeID=" . $objForm->Obj->WorkstateTypeID;
+
 		}
+
+
 		//////////////////// End Filter ////////////////////
 
 		// Get Data
@@ -208,10 +211,13 @@ class Workstate extends CI_Controller {
             // Get Data
 			$objForm->ObjList = $this->workstate_model->Listing($objForm);
 		}
+
+
 		
 		// Page Count
 		$tempCount = $objForm->Form->RowCount / $objForm->Form->PageSize;
 		$objForm->Form->PageCount = ceil($tempCount);
+
 
 		if ($objForm->Form->PageCount == 0)
 		{
@@ -233,6 +239,7 @@ class Workstate extends CI_Controller {
 		// Model.Form.StartRow
 		// Model.Form.EndRow
 		// Model.Form.RowCount
+
 	
 		$this->template->load('v_workstate', $objForm);
 	}

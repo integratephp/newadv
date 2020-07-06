@@ -11,7 +11,10 @@
             <a class='navbar-brand' href='#'><img src='http://apps.kmn.kompas.com/static/img/FastKomLogo.png' style='margin-top:-25px; width:220px;'></a>
         </div> <!--- container --->
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse dan-navbar" id="bs-example-navbar-collapse-1">
+        <?php
+            if(isset($_SESSION["username"])): ?>
+
+                        <div class="collapse navbar-collapse dan-navbar" id="bs-example-navbar-collapse-1">
 
                                     <ul class="nav navbar-nav">
                                         <li class="dropdown">
@@ -84,7 +87,7 @@
                                                  <li><a class="dan-menu-item" href="/newadv/Report/BPNewRegistration">BP New Registration</a></li>
                                                  <li><a class="dan-menu-item" href="/newadv/Report/BPWithoutTaxNumber">BP Without Tax Number</a></li>
                                                  <li><a class="dan-menu-item" href="/newadv/Report/DaftarOrderBatal">Daftar Order Batal</a></li>
-                            <li class="divider"></li>							 
+                            <li class="divider"></li>                            
                                                  <li><a class="dan-menu-item" href="/newadv/Report/BillingImport">Billing Import</a></li>
                                                  <li><a class="dan-menu-item" href="/newadv/Report/BillingPaid">Billing Paid</a></li>
                                                  <li><a class="dan-menu-item" href="/newadv/Report/TaxVoid">Tax Void</a></li>
@@ -119,7 +122,7 @@
                                                  <li><a class="dan-menu-item" href="/materialmanagemantdev/project">Projects</a></li>                         
                                                  <li><a class="dan-menu-item" href="/materialmanagemantdev/worker">Workers</a></li>
                                                  <li><a class="dan-menu-item" href="/materialmanagemantdev/WOType">WO Type</a></li> 
-                            <li><a class="dan-menu-item" href="/newadv/WOOutputGroup">Extract Group</a></li> 							 
+                            <li><a class="dan-menu-item" href="/newadv/WOOutputGroup">Extract Group</a></li>                             
                                             </ul>
                                         </li>
                                         <li class="dropdown dropdown-mega">
@@ -226,12 +229,30 @@
                                                 <li><div class="dan-menu-container"><p>Guest</p></div></li>
                                                 <li class="divider"></li>
                                                 <li><a href="/newadv/User/ChangePassword">Change Password</a></li>
-                                                <li><a href="/newadv/Logout">Logout</a></li>
+                                                <li><a href="/newadv/Login/UnsetSession">Logout</a></li>
                                             </ul>
                                         </li>
                                     </ul>
 
                                 </div>
+
+
+
+
+
+             <?php else: ?>
+               <div class="collapse navbar-collapse dan-navbar" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">                                         
+                             <a href="/newadv/Login">
+                                <button type="button" class="btn" style="margin-top:8px; background-color:#fff; padding:9px 10px;">
+                                <span class="glyphicon glyphicon-log-in"></span>
+                                 &nbsp; Login
+                                </button>
+                            </a>
+                        </ul>
+                    </div>
+            <?php endif; ?>
+
         <!--- navbar-collapse --->
     </div> <!--- container -->
 </nav>

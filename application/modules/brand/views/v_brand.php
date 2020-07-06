@@ -1,5 +1,5 @@
-<?php 
-$this->template->set('title','Workstate Listing');
+<?php
+$this->template->set('title','Brand Listing');
 
 $Next2 = 0;
 $Prev2 = 0;
@@ -16,24 +16,18 @@ if ($Prev2 == 0)
     $Prev2 = 1;
 }
 
-// for($i=0; $i < count($Obj->DropDownWorkstateType); $i++){
-    
-//    echo $Obj->DropDownWorkstateType[$i]->WorkstateTypeName;
 
-// }
-
-$BannedDetected = "";
 ?>
-<!-- <?php var_dump($ObjList);?> -->
+
 <div class="content-wrapper" document="doc-1column-template">
     <div class="container" style="min-height:450px;">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="page-header">Workstate <small>Listing</small></h1>
+                <h1 class="page-header">Brand <small>Listing</small></h1>
             </div> <!--- col --->
         </div> <!--- row --->
         <!--- begin form --->
-        <form role="form" action="/newadv/Workstate" method="POST" class="form">
+        <form role="form" action="/newadv/Brand" method="POST" class="form">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-inline search-form">
@@ -48,33 +42,39 @@ $BannedDetected = "";
                                 <button type="button" id="fResetbtn" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span><span class="hidden-xs"> Reset</span></button>
                                 <!--- new button --->
                                 <button type="button" class="btn btn-success" onclick="window.location='<?=base_url()?>workstate/addedit/0'"><span class="glyphicon glyphicon-plus"></span><span class="hidden-xs"> New</span></button>
+
+                                 <!--- filter button --->
+                                <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapsibleSection"><span class="glyphicon glyphicon-chevron-down"></span><span class="hidden-xs"> Filter</span></button>
                                 <!--- filter button --->
                             </span>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-xs-7">
-                            <!--- Workstate --->
+            </div> <!-- col -->
+
+            <!--- collapsible section for filter --->
+            <div id="collapsibleSection" class="collapse">
+                <div class="collapsible-content">
+                    <div class="row">
+                        <!--- Brand type --->
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label">Workstate Type</label>
-                                <select class="form-control" id="WorkstateTypeID" name="WorkstateTypeID">                                
-                                    <?php
-                                    for($i=0; $i < count($Obj->DropDownWorkstateType); $i++){
-                                        if($Obj->DropDownWorkstateType[$i]->WorkstateTypeID == $Obj->WorkstateTypeID){
-                                            echo '<option selected value="'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeID.'">'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeName.'</option>';
+                                <label class="control-label">Parent</label>
+                                <select id="ParentID" name="ParentID" class="form-control">
+                                  <?php
+                                  for($i=0; $i < count($Obj->DropDownParentName); $i++){
+                                     if($Obj->DropDownParentName[$i]->ParentID == $Obj->ParentID){
+                                            echo '<option selected value="'.$Obj->DropDownParentName[$i]->ParentID.'">'.$Obj->DropDownParentName[$i]->ParentName.'</option>';
                                         }
                                         else{
-                                            echo '<option value="'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeID.'">'.$Obj->DropDownWorkstateType[$i]->WorkstateTypeName.'</option>';
+                                            echo '<option value="'.$Obj->DropDownParentName[$i]->ParentID.'">'.$Obj->DropDownParentName[$i]->ParentName.'</option>';
                                         }
-                                    }
-                                    ?> 
+                                  }
+                                  ?>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-5">
-                            <!--- Rows --->
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label class="control-label">Rows</label>
                                 <select id="PageSize" name="PageSize" class="form-control">
@@ -102,12 +102,12 @@ $BannedDetected = "";
                                     ?>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- col -->
-
-    
+                        </div> <!--- col --->
+                       
+                    </div> <!--- row --->
+                </div> <!-- collapsible-content -->
+            </div>
+            <!--- end of collapsible section for filter --->
             <!--- collapsible section for filter --->
             
             <!--- end of collapsible section for filter --->
@@ -122,11 +122,8 @@ $BannedDetected = "";
                                 <tr>
                                     <th class="text-right" style="width:3%">No.</th>
                                     <th style="width:25%">Name</th>
-                                    <th>Workstate Type</th>
-                                    <th class="text-center">Finalize</th>
-                                    <th class="text-center">Backward Allow</th>
-                                    <th class="text-center">Level</th>
-                                    <th class="text-center">Color</th>
+                                    <th style="width:25%">Parent Name</th>
+                                    <th>Brand Product</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,27 +132,9 @@ $BannedDetected = "";
                                     ?>
                                     <tr>
                                         <td class="text-right"><?= $ObjList[$i]->RowNumber; ?><text>.</text></td>
-                                        <td><a href="<?= base_url();?>workstate/detail/<?= $ObjList[$i]->ID; ?>"><?= $ObjList[$i]->Name; ?></a><span class="ref-num"> (<?= $ObjList[$i]->ID; ?>)</span></td>
-                                        <td><?= $ObjList[$i]->WorkstateTypeName; ?></td>
-                                        <td class="text-center">
-                                            <?php
-                                            if ($ObjList[$i]->Finalized == 1)
-                                            {
-                                                echo '<span class="glyphicon glyphicon-ok"></span>';
-                                            }
-                                            ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <?php
-                                            if ($ObjList[$i]->BackwardAllow == 1)
-                                            {
-                                                echo '<span class="glyphicon glyphicon-ok"></span>';
-                                            }
-                                            ?>
-                                        </td>
-                                        <td class="text-center"><?= $ObjList[$i]->Level; ?></td>
-                                        
-                                        <td class="text-center"><div class="color-palette" style="background-color: <?= $ObjList[$i]->Color; ?>"><span style="color: rgba(255, 255, 255, 0.8);"> <?= $ObjList[$i]->Color; ?></span></div></td>
+                                        <td><a href="<?= base_url();?>brand/detail/<?= $ObjList[$i]->ID; ?>"><?= $ObjList[$i]->Name; ?></a><span class="ref-num"> (<?= $ObjList[$i]->ID; ?>)</span></td>
+                                        <td><?= $ObjList[$i]->ParentName; ?></td>
+                                        <td><?= $ObjList[$i]->BrandProduct; ?></td>
                                     </tr>
                                     <?php
                                 }
@@ -234,20 +213,28 @@ $BannedDetected = "";
     </div> <!--- container --->
 </div>
 
-
 <script>
     var PageSize = <?= $Form->PageSize; ?>;
-    var WorkstateTypeID = <?= $Obj->WorkstateTypeID; ?>;
+    var ParentID = <?= $Obj->ParentID; ?>;
 
     console.log("PageSize: ", PageSize);
-    console.log("WorkstateTypeID: ", WorkstateTypeID);
-    // Show Filter if Active
-    if ((PageSize != 20) || (WorkstateTypeID != 0)) {
+    console.log("ParentID: ", ParentID);
+
+     // Show Filter if Active
+    if ((PageSize != 20) || (ParentID != 0)) {
         //$('#collapsibleSection').show();
         $('#collapsibleSection').addClass('in');
     }
 
-    //////////////////// Paging ////////////////////
+     //////////////////// Paging ////////////////////
+
+    // Search using click
+    $('#fSearchbtn').on('click',function(){
+        console.log('test click');
+        $('#FilterSubmit').val(1);
+        this.form.submit();
+    });
+
 
     // PageSize
     $('#PageSize').on('change', function () {
@@ -255,7 +242,7 @@ $BannedDetected = "";
         this.form.submit();
     });
 
-    // Selected Index Row
+     // Selected Index Row
     $('#SelectedIndexRow2').on('change', function () {
         $('#FilterSubmit').val(1);
         this.form.submit();
@@ -285,39 +272,21 @@ $BannedDetected = "";
         $('#FilterSubmit').val(1);
     });
 
-    //////////////////// End Paging ////////////////////
 
-    //////////////////// Searching and Reset ////////////////////
+     //////////////////// Filter ////////////////////
 
-    // Search using click
-    $('#fSearchbtn').on('click',function(){
-        console.log('test click');
+    // Filter change
+    $('#ParentID').on('change', function () {
         $('#FilterSubmit').val(1);
         this.form.submit();
     });
 
-    // Search using enter
-    $(document).keypress(function (e) {
-        if (e.which == 13) {
-            $('#FilterSubmit').val(1);
-            this.form.submit();
-        }
-    });
-
+    
     // Reset using click
     $('#fResetbtn').on('click', function () {
         $('#Reset').val("true");
         this.form.submit();
     });
 
-    //////////////////// End Searching and Reset ////////////////////
 
-    //////////////////// Filter ////////////////////
-
-    // Filter change
-    $('#WorkstateTypeID').on('change', function () {
-        $('#FilterSubmit').val(1);
-        this.form.submit();
-    });
-    //////////////////// End Filter ////////////////////
 </script>

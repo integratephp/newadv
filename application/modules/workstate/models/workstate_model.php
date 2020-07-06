@@ -232,6 +232,7 @@ class Workstate_Model extends CI_Model {
 
         $url = "http://api.kmn.kompas.com/newadvdev/Workstate/save";
         $data = '{"ID": '.$ID.' , "Name" : "'.$Name.'", "Description" : "'.$Description.'", "WorkstateTypeID" : '.$WorkstateTypeID.', "Finalized" : '.$Finalized.', "Level" : '.$Level.', "BackwardAllow" : '.$BackwardAllow.', "Color" : "'.$Color.'", "Token" : "string" }';
+        
         $header = array('Content-Type: application/json','Content-Length: ' . strlen($data));
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -256,7 +257,7 @@ class Workstate_Model extends CI_Model {
 
         //header('Content-Type: application/json');
         $row = json_decode($response);
-       
+    
 
 
         $objForm->Form->status = ($row->{'status'});
