@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Class Halo
@@ -9,83 +9,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Function getPerson
  *
  */
- 
-class Login extends CI_Controller {
-	public function __construct(){
-		parent::__construct();
-		$this->load->model('login_model');
-	}
-	
-	public function index()
-	{
-	
-		$this->data["title"] = "Login";
 
-		$this->template->load('v_login', $this->data); 
-	}
+class Login extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('login_model');
+    }
 
-	public function validateUser(){
-		$email = $_POST["Email"];
-		$password = $_POST["Password"];
+    public function index()
+    {
+        $this->data["title"] = "Login";
+        if (!isset($_POST["Email"]) && !isset($_POST["Password"])) {
+            if (isset($_SESSION["username"])) {
+                redirect(base_url());
+            }
+            $this->template->load('v_login', $this->data);
+        } else {
+            $email = $_POST["Email"];
+            $password = $_POST["Password"];
+            $url = userUrl() . "login";
+            $data = '{"Email": "' . $email . '", "Password" : "' . $password . '"}';
+            $postAPI = postDataAPI($url, $data);
+            $response = $postAPI["response"];
+            $row = $postAPI["row"];
 
-		$url = "http://appdev.kmn.kompas.com/gmmsapi/user/login";
-        $data = '{"Email": "'.$email.'", "Password" : "'.$password.'"}';
-
-        
-        $header = array('Content-Type: application/json','Content-Length: '.strlen($data));
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_HTTPHEADER => $header,
-            CURLOPT_POSTFIELDS => $data,
-        ));
-        $response = curl_exec($curl);
-        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $obj = substr($response, $header_size);
-        $err = curl_error($curl);	
-
-        curl_close($curl);
-
-        $row = json_decode($response);
-
-        // echo "<pre>";
-        // var_dump($response);
-        // die();
-
-       
-	
-        if(strlen($response) > 40){
-			redirect(base_url());
-        }else{
-
-        	$token = "btick7";
-	      	
-
-	       $nama = $this->bsession->register($token,$response);
-
-	         $_SESSION["username"] = $email;
-
-	        
-         	redirect(base_url());
+            if (strlen($response) > 40) {
+                $this->data["message"] = $row->{"message"};
+                $this->template->load('v_login', $this->data);
+            } else {
+                $valuesession = $this->bsession->register(getToken(), $response);
+                $_SESSION["username"] = $valuesession;
+                // echo "<pre>";
+                // var_dump();
+                // die();
+                redirect(base_url());
+            }
         }
-
-        // if($response){
-        // 	 $_SESSION["username"] = $email;
-        // 	$this->template->load('v_home');
-        // }
-  
-	}
-
-	public function UnsetSession(){
-		unset($_SESSION["username"]);
-		redirect(base_url());
-	}
-
+    }
 }
