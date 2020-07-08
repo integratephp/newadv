@@ -49,17 +49,30 @@ class Login extends CI_Controller {
         $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $obj = substr($response, $header_size);
-        $err = curl_error($curl);
+        $err = curl_error($curl);	
 
         curl_close($curl);
 
         $row = json_decode($response);
 
+        // echo "<pre>";
+        // var_dump($response);
+        // die();
 
+       
+	
         if(strlen($response) > 40){
 			redirect(base_url());
         }else{
-	        $_SESSION["username"] = $email;
+
+        	$token = "btick7";
+	      	
+
+	       $nama = $this->bsession->register($token,$response);
+
+	         $_SESSION["username"] = $email;
+
+	        
          	redirect(base_url());
         }
 
@@ -67,8 +80,7 @@ class Login extends CI_Controller {
         // 	 $_SESSION["username"] = $email;
         // 	$this->template->load('v_home');
         // }
-
-       
+  
 	}
 
 	public function UnsetSession(){
